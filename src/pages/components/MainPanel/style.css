@@ -1,0 +1,27 @@
+#main-panel{
+    padding-left: 90px;
+    padding-right: 30px;
+    background-color: #F3F3F3;
+    width: calc(66% - 90px);
+    min-width: 550px;
+}
+
+#main-panel .title{
+    margin-top: 60px;
+}
+
+#main-panel .title .before-title{
+    font-size: 14px;
+    color:#C1C1C1;
+}
+
+#main-panel .title .main-title{
+    font-size: 26px;
+    color:#626262;
+}
+
+#main-panel .subtitle{
+    margin-top: 40px;
+    font-size: 18px;
+    color:#626262;
+}

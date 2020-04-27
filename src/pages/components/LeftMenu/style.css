@@ -1,0 +1,22 @@
+#left-menu{
+    display: flex;
+    width: 90px;
+    height: 100vh;
+    background-color: #FBFBFB;
+    border-right: solid 1px #DEDEDE;
+}
+
+#left-menu .logo{
+    height: 90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #DEDEDE;
+}
+
+#left-menu .logo img{
+    margin-left:auto;
+    margin-right: auto;
+    height: 40px;
+    width: 40px;
+}
