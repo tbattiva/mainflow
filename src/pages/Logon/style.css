@@ -1,0 +1,128 @@
+#login {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+
+    background-color: #FBFBFB;
+}
+
+#login .login-left {
+    height: 100%;
+    width: 76%;
+}
+#login .login-left .logo{
+    height: 90px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+}
+
+#login .login-left .logo img{
+    margin-left:auto;
+    margin-right: auto;
+    height: 40px;
+    width: 40px;
+}
+
+#login .login-left .title{
+    color: #3B3B3B;
+    font-size: 46px;
+
+    margin-top: 60px;
+    margin-left: 50px;
+}
+
+#login .login-left .subtitle{
+    width:60%;
+    color: #626262;
+    font-size: 26px;
+
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+
+
+
+#login .login-right{
+    width: 34%;
+
+    margin: 0 75px;
+}
+
+#login .login-right .title{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+    width: 100%;
+
+    font-size: 24px;
+    color: #626262;
+
+}
+
+#login .login-right form{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 20px;
+    color: #626262;
+    
+    margin-top: 80px;
+    
+}
+
+#login .login-right form .input-box{
+    position: relative;
+    width: 85%;
+}
+#login .login-right form .input-box input{
+    height: 42px;
+    margin-bottom: 40px;
+    padding-left: 40px;
+    
+    box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.04);
+    border-radius: 5px;
+}
+
+#login .login-right form .input-box .icon{
+    display: block;
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: transparent;
+
+    top: 10px;
+    left: 10px;
+}
+
+#login .login-right form .input-box .icon svg{
+    stroke: #626262
+}
+
+#login .login-right form button{
+    height: 42px;
+    width: 85%;
+    margin-top: 20px;
+    font-size: 20px;
+    
+    background-color: #878585;
+    border-color: #878585;
+    color:#fff;
+}
+
+#login .login-right form span.forgot, #login .login-right form span.register{
+    width: 85%;
+    text-align: right;
+
+    margin-top:5px;
+    font-size: 14px;
+
+}
+
+span.forgot span, span.register span{
+    cursor: pointer;
+}

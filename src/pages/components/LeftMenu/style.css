@@ -4,6 +4,7 @@
     height: 100vh;
     background-color: #FBFBFB;
     border-right: solid 1px #DEDEDE;
+    flex-direction: column;
 }
 
 #left-menu .logo{
@@ -19,4 +20,30 @@
     margin-right: auto;
     height: 40px;
     width: 40px;
+}
+
+#left-menu .menu-grp{
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 20px;
+}
+
+#left-menu .menu-grp .menu-item{
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    height: 50px;
+
+    margin: 15px 5px;
+}
+
+#left-menu .menu-grp .menu-item svg{
+    margin: 0 auto;
+    stroke: #d4d4d4;
+    cursor: pointer;
+}
+
+#left-menu .menu-grp .menu-item svg:hover{
+    stroke: #77A102;
 }

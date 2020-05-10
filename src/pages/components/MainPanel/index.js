@@ -12,6 +12,9 @@ export default function MainPanel(props){
             <div className='subtitle'>
                 {props.subtitle}
             </div>
+            <div>
+                {props.children}
+            </div>
         </div>
     );
 }

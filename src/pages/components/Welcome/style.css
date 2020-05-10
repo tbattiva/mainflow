@@ -1,0 +1,100 @@
+.welcome .add-new-menu{
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+
+    margin-top: 60px;
+}
+
+.welcome .add-new-menu .add-new-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 120px;
+    width: 220px;
+
+    border-radius: 3px;
+    border: solid 1.5px #D4D4D4;
+    background-color: rgba(196, 196, 196, 0.12);
+    margin-right: 20px;
+    padding: 15px;
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.welcome .add-new-menu .add-new-item svg{
+    stroke: #626262;
+
+    position: relative;
+    top: -10px;
+
+    transition: top 0.3s ease-out;
+}
+.welcome .add-new-menu .add-new-item .label{
+    display: flex;
+    flex-direction: column;
+
+    margin: 5px;
+    margin-left: 10px;
+    padding: 5px;
+}
+.welcome .add-new-menu .add-new-item .label .title{
+    color: #626262;
+    font-size: 17px;
+}
+.welcome .add-new-menu .add-new-item .label .subtitle{
+    color: #9B9B9B;
+    margin-top: 2px;
+}
+
+.welcome .add-new-menu .add-new-item:hover svg{
+    top: -12px;
+}
+
+.welcome [class*='flows-list']{
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.welcome [class*='flows-list'] > .title{
+    font-size: 18px;
+    color: #c1c1c1;
+    margin-bottom:30px
+}
+
+.welcome [class*='flows-list'] .flow-instance{
+    margin-top: 15px;
+    margin-left: 16px;
+    position: relative;
+}
+
+.welcome [class*='flows-list'] .flow-instance::before{
+    content:'';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 5px;
+    background-color: #D4D4D4;
+    left: -13px;
+    border-radius: 5px;
+}
+
+.welcome [class*='flows-list'] .flow-instance .title{
+    font-size: 18px;
+    color: #626262;
+}
+
+.welcome [class*='flows-list'] .flow-instance .status{
+    font-size: 16px;
+    margin-top: 5px;
+}
+.welcome [class*='flows-list'] .flow-instance .status.running{
+    color: #8FC102;
+}
+.welcome [class*='flows-list'] .flow-instance .status.error{
+    color: #A22E2E;
+}
+.welcome [class*='flows-list'] .flow-instance .status.ended{
+    color: #C1C1C1;
+}

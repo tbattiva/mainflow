@@ -1,0 +1,55 @@
+
+.new-flow .add-new-box{
+    display: flex;
+    flex-direction: row;
+    min-height: 120px;
+
+    border-radius: 3px;
+    border: solid 1.5px #D4D4D4;
+    background-color: rgba(196, 196, 196, 0.12);
+    margin-top: 60px;
+    margin-bottom: 40px;
+    margin-right: 20px;
+    padding: 15px;
+
+}
+
+.new-flow .add-new-box svg{
+    stroke: #626262;
+
+    position: relative;
+    top: 30px;
+
+    transition: top 0.3s ease-out;
+}
+.new-flow .add-new-box form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    padding: 5px 20px;
+}
+.new-flow .add-new-box form label{
+    color: #626262;
+    font-size: 14px;
+}
+
+.new-flow .add-new-box form .menu-btns{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.new-flow .add-new-box form .menu-btns button{
+    margin:5px;
+}
+
+
+
+
+/* ==================================== */
+
+
+
+

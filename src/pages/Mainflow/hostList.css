@@ -1,0 +1,81 @@
+
+.rm-list-menu .host-list{
+    display: none;
+    margin-top: 40px;
+    background-color: transparent;
+
+    max-height: calc(100vh - 230px);
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style:none;
+}
+
+.rm-list-menu .host-list::-webkit-scrollbar{
+    width: 0px;
+}
+
+.rm-list-menu .host-list .host-item{
+    list-style: none;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    height: 90px;
+    border: solid 1.5px transparent;
+    border-bottom: dotted 1.5px #D4D4D4;
+    background-color: rgba(196, 196, 196, 0.0);
+
+    padding: 10px 0px 0px 14px;
+
+    position: relative;
+}
+
+.rm-list-menu .host-list .host-item:hover{
+    border: solid 1.5px #D4D4D4;
+    background-color: rgba(196, 196, 196, 0.12);
+
+}
+
+.rm-list-menu .host-list .host-item .data{
+    display: flex;
+    flex-direction: column;
+}
+
+.rm-list-menu .host-list .host-item .data .title{
+    font-size: 18px;
+    text-transform: uppercase;
+
+    color: #626262;
+}
+.rm-list-menu .host-list .host-item .data .description{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+
+    margin-top: 8px;
+
+    color: #C1C1C1;
+}
+
+.rm-list-menu .host-list .host-item .play-btn{
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 0;
+
+    width: 50px;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rm-list-menu .host-list .host-item .play-btn svg{
+    margin: 0 auto;
+    stroke: #c1c1c1;
+}
+.rm-list-menu .host-list .host-item .play-btn svg:hover{
+    margin: 0 auto;
+    stroke: #626262;
+}
