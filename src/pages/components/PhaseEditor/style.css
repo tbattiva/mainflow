@@ -1,0 +1,131 @@
+.phase-editor{
+    margin-top: 30px;
+}
+
+.phase-editor .menu-action{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+}
+
+.phase-editor .menu-action .action{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+
+.phase-editor .menu-action .action span{
+    margin-right: 10px;
+    color: #C1C1C1;
+}
+
+.phase-editor .menu-action .action svg{
+    stroke: #C1C1C1;
+}
+
+.phase-editor .menu-action .action:hover span{
+    color: #8FC102;
+
+}
+.phase-editor .menu-action .action:hover svg{
+    stroke: #8FC102;
+
+}
+
+.phases-canvas{
+    margin-top: 100px;
+}
+
+.phases-canvas .phase{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin-top: 70px;
+    padding: 18px 30px 30px 30px;
+    
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.04);
+}
+
+.phases-canvas .phase:not(:first-of-type){
+    margin-top: 220px;
+}
+
+.phases-canvas .phase:not(:first-of-type):before{
+    content:'';
+    display: block;
+    position: absolute;
+    height: 120px;
+    width: 2px;
+    top: -160px;
+    left: 50%;
+    
+    border-radius: 2px;
+    background-color: #dfdfdf;
+}
+
+.phases-canvas .phase:last-of-type{
+    margin-bottom: 120px;
+}
+
+.phases-canvas .phase .upper-menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: absolute;
+    top:-22px;
+    right: 0px;
+}
+
+.phases-canvas .phase .upper-menu .btn{
+    margin: 0 4px;
+}
+
+.phases-canvas .phase .upper-menu .btn svg{
+    stroke:#C1C1C1;
+}
+
+.phases-canvas .phase .title{
+    color: #626262;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+.phases-canvas .phase .description{
+    margin-top: 20px;
+    padding-left: 15px;
+
+    color: #626262;
+    font-size: 18px;
+}
+
+.phases-canvas .phase .object{
+    height: auto;
+    margin-top: 15px;
+    margin-left: 15px;
+    
+    font-family: 'Courier New';
+    color: #C1C1C1;
+    font-size: 16px;
+    
+    border: none;
+    overflow: hidden;
+    resize: none;
+}
+
+.phases-canvas .phase .object:disabled{
+    background-color: transparent;
+}
+.phases-canvas .phase .modified{
+    position: absolute;
+    bottom: -20px;
+    right: 0px;
+    color: #C1C1C1;
+    font-size: 13px;
+    margin-right: 10px;
+}
