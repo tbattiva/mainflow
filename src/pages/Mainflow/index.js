@@ -5,6 +5,7 @@ import {FiPower, FiSearch, FiTrash2} from 'react-icons/fi';
 
 import backend from '../../services/backend';
 
+import PhaseEditor from '../components/PhaseEditor';
 import LeftMenu from '../components/LeftMenu';
 import MainPanel from '../components/MainPanel';
 import RightMenu from '../components/RightMenu';
@@ -112,17 +113,34 @@ export default function Mainflow(props){
             obj.parentElement.closest(".host-item").remove();
             return;
         } catch (error) {
-            alert("Something got wrong!");
+            alert("Something went wrong!");
             console.log(error);
         }
 
     }
 
+    async function handleFlowOpening(flowId){
+        try {
+            const openedFlow = await backend.get(`/flows/${flowId}`);
+            fSetContent(
+                (<PhaseEditor phases={openedFlow.data.phases} flowId={flowId} />),
+                openedFlow.data.name,
+                openedFlow.data.description
+            );
+        } catch (error) {
+            alert("Something went wrong!")
+        }
+    }
 
     //* ========================================== *//
 
-    const fSetContent = (component) =>{
+    const [title, setTitle] = useState("MAINFLOW");
+    const [subtitle, setSubtitle] = useState('Lorem Ipsum is simply dummy text of the printing and typesetting industry. ');
+
+    const fSetContent = (component, title = 'MAINFLOW', subtitle='Lorem Ipsum is simply dummy text of the printing and typesetting industry. ') =>{
         setMainContent(component)
+        setTitle(title);   
+        setSubtitle(subtitle);   
     }
 
 
@@ -141,9 +159,9 @@ export default function Mainflow(props){
                 setContent={fSetContent}
             />
             <MainPanel 
-                title='MAINFLOW'
+                title={title}
                 beforeTitle='Keep Flowing' 
-                subtitle='Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                subtitle={subtitle}
             >
                 
                 {mainContent}
@@ -170,7 +188,7 @@ export default function Mainflow(props){
                     </div>
                     <ul className='flow-list'>
                         {list.map(item => (
-                            <li className='flow-item ' id={item._id} key={item._id}>
+                            <li className='flow-item ' id={item._id} key={item._id} onClick={e => handleFlowOpening(item._id)}>
                                 <div className="data">
                                     <span className='title'>{item.name}</span> 
                                     <span className='description'>{item.description}...</span> 

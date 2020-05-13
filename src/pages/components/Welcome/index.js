@@ -19,7 +19,9 @@ export default function Welcome(props){
                                     setContent={props.setContent} 
                                     resetList={props.resetList}
                                     resetHostList={props.resetHostList}
-                                />)
+                                />),
+                                "NEW FLOW",
+                                ""
                             )
                         }}>
                     <FiLayers size="38" />
@@ -33,7 +35,10 @@ export default function Welcome(props){
                             setContent={props.setContent}
                             resetList={props.resetList}
                             resetHostList={props.resetHostList}
-                        />))}}>
+                        />),
+                        "NEW HOST",
+                        ""
+                        )}}>
                     <FiHexagon size="38" />
                     <div className="label">
                         <div className="title">new HOST</div>

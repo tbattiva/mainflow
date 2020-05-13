@@ -52,6 +52,11 @@
     box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.04);
 }
 
+.phases-canvas .phase.alt{
+    background: rgba(196, 196, 196, 0.12);
+    border: 1px solid #D4D4D4;
+}
+
 .phases-canvas .phase:not(:first-of-type){
     margin-top: 220px;
 }
@@ -82,8 +87,22 @@
     right: 0px;
 }
 
+
+
 .phases-canvas .phase .upper-menu .btn{
     margin: 0 4px;
+}
+
+.phases-canvas .phase .upper-menu .btn.edition{
+    display: none;
+}
+
+.phases-canvas .phase.alt .upper-menu .btn.edition{
+    display: block;
+}
+
+.phases-canvas .phase.alt .upper-menu .btn:not(.edition){
+    display: none;
 }
 
 .phases-canvas .phase .upper-menu .btn svg{
@@ -91,17 +110,38 @@
 }
 
 .phases-canvas .phase .title{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: fit-content;
     color: #626262;
     font-size: 20px;
+    border: none;
     text-transform: capitalize;
+}
+
+.phases-canvas .phase .title>div{
+    min-width: 30px;
+}
+
+.phases-canvas .phase.alt .title>div{
+    border: solid thin #626262;
+    border-radius: 3px;
+    background-color: #fff;
 }
 
 .phases-canvas .phase .description{
     margin-top: 20px;
-    padding-left: 15px;
+    margin-left: 15px;
 
     color: #626262;
     font-size: 18px;
+}
+
+.phases-canvas .phase.alt .description{
+    border: solid thin #626262;
+    border-radius: 3px;
+    background-color: #fff;
 }
 
 .phases-canvas .phase .object{
@@ -121,6 +161,13 @@
 .phases-canvas .phase .object:disabled{
     background-color: transparent;
 }
+
+.phases-canvas .phase.alt .object{
+    min-height: 200px;
+    border: solid thin #626262;
+    border-radius: 3px;
+}
+
 .phases-canvas .phase .modified{
     position: absolute;
     bottom: -20px;
