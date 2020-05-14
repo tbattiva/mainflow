@@ -122,6 +122,7 @@
 
 .phases-canvas .phase .title>div{
     min-width: 30px;
+    margin-right: 4px;
 }
 
 .phases-canvas .phase.alt .title>div{
@@ -176,3 +177,86 @@
     font-size: 13px;
     margin-right: 10px;
 }
+
+
+.phase-editor .new-phase{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.phase-editor .new-phase::before{
+    content:'';
+    display: block;
+    position: absolute;
+    height: 60px;
+    width: 2px;
+    top: -95px;
+    left: 50%;
+    
+    border-radius: 2px;
+    background-color: #dfdfdf;
+}
+.phase-editor .new-phase .selector{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.phase-editor .new-phase .selector span{
+    color: #626262;
+}
+
+.phase-editor .new-phase .selector .select {
+    height: 30px;
+    margin-left: 5px;
+    border-radius: 0;
+    border-bottom: solid 1.5px #c1c1c1;
+}
+.phase-editor .new-phase .selector .select select{
+    text-align-last:center;
+}
+
+.phase-editor .new-phase .selector .select::after{
+    top: -7px;
+}
+
+
+
+.phase-editor .new-phase form{
+    background: rgba(196, 196, 196, 0.12);
+    border: 1px solid #D4D4D4;
+
+    margin-top: 30px;
+    border-radius: 3px;
+    padding: 15px;
+}  
+
+
+.phase-editor .new-phase form input,
+.phase-editor .new-phase form textarea{
+    margin:10px 0px;
+}
+
+.phase-editor .new-phase .new-phase-board {
+    display: none;
+}
+.phase-editor .new-phase .new-phase-board .menu-btns{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.phase-editor .new-phase .new-phase-board .menu-btns button{
+    width: 120px;
+    margin: 10px;
+}
+

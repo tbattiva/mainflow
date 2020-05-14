@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import { FiHome, FiList, FiBarChart2 } from 'react-icons/fi';
 
 import Welcome from '../Welcome';

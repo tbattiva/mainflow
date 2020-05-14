@@ -36,7 +36,7 @@ export default function NewHost(props){
                         "user-id": userId
                     }
                 });
-            if(resp.status == 200) {
+            if(resp.status === 200) {
                 alert("New Host added!")
                 props.setContent((<Welcome 
                     setContent={props.setContent}

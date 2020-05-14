@@ -23,7 +23,7 @@ export default function NewFlow(props){
         try {
             
             const resp = await backend.post("/flows", data);
-            if(resp.status == 200) {
+            if(resp.status === 200) {
                 alert("New Flow added!")
                 props.setContent((<Welcome setContent={props.setContent}/>))
                 props.resetList();

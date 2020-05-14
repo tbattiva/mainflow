@@ -18,8 +18,8 @@ import './hostList.css';
 export default function Mainflow(props){
     const history = useHistory();
 
-    const [userId, setUserId] = useState(localStorage.getItem("user-id"));
-    const [userName, setUserName] = useState(localStorage.getItem("user-name"));
+    const userId = localStorage.getItem("user-id");
+    //const [userName, setUserName] = useState(localStorage.getItem("user-name"));
 
     if (!userId) history.push("/");
 
@@ -90,14 +90,14 @@ export default function Mainflow(props){
 
         const delOp = await backend.delete(`/flows/${flowId}`);
 
-        if (delOp.data.ret == 1){
+        if (delOp.data.ret === 1){
             alert("Flow deleted!!");
         }
-        else if(delOp.data.ret == -1){
+        else if(delOp.data.ret === -1){
             alert("Flow couldn't be deleted!");
             
         }
-        else if(delOp.data.ret == -2){
+        else if(delOp.data.ret === -2){
             alert("Phases couldn't be deleted!");
         }
         else{

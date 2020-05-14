@@ -30,7 +30,7 @@ select {
     outline: 0;
     box-shadow: none;
     border: 0 !important;
-    background: #FBFBFB;
+    background: transparent;
     background-image: none;
   }
   /* Remove IE arrow */
@@ -41,10 +41,10 @@ select {
   .select {
     position: relative;
     display: flex;
-    width: 100px;
+    width: fit-content;
     height: 40px;
     line-height: 3;
-    background: #FBFBFB;
+    background: transparent;
     overflow: hidden;
     border-radius: .25em;
   }
@@ -53,15 +53,16 @@ select {
     padding: 0 .5em;
     color: #626262;
     cursor: pointer;
+    margin-right: 10px;
   }
   /* Arrow */
   .select::after {
     content: '\25BC';
     position: absolute;
     top: 0;
-    right: 0;
+    right: -15px;
     padding: 0 1em;
-    background: #FBFBFB;
+    background: transparent;
     cursor: pointer;
     pointer-events: none;
     -webkit-transition: .25s all ease;
@@ -85,7 +86,7 @@ label{
 
 /* input */
 
-input[type='text'], input[type='password'] {
+input[type='text'], input[type='password'], textarea {
   font: 400 16px 'Roboto Slab', sans-serif;
   width: 100%;
 
@@ -94,6 +95,11 @@ input[type='text'], input[type='password'] {
   border-radius: 3px;
   outline: none;
   border-style: none;
+}
+
+textarea{
+  resize: vertical;
+  min-height: 45px;
 }
 
 /* button */

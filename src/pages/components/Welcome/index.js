@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {FiLayers, FiHexagon} from 'react-icons/fi';
 
 import NewFlow from '../NewFlow';
