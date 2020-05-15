@@ -137,6 +137,9 @@
 
     color: #626262;
     font-size: 18px;
+    background-color: #fff;
+    outline: none;
+    border: none;
 }
 
 .phases-canvas .phase.alt .description{
@@ -146,7 +149,6 @@
 }
 
 .phases-canvas .phase .object{
-    height: auto;
     margin-top: 15px;
     margin-left: 15px;
     
@@ -167,6 +169,38 @@
     min-height: 200px;
     border: solid thin #626262;
     border-radius: 3px;
+}
+
+.phases-canvas .phase .react-tags-wrapper{
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.phases-canvas .phase .react-tags-wrapper .ReactTags__tagInputField{
+    display: none;
+    border: solid thin #626262;
+}
+
+.phases-canvas .phase.alt .react-tags-wrapper .ReactTags__tagInputField{
+    display: block;
+}
+
+.phases-canvas .phase .react-tags-wrapper .ReactTags__selected{
+    display: flex;
+    flex-wrap: wrap;
+}
+.phases-canvas .phase .react-tags-wrapper .ReactTags__tag{
+    display: flex;
+    width: fit-content;
+    min-width: 20px;
+    margin: 2px 2px;
+}
+.phases-canvas .phase .react-tags-wrapper .ReactTags__tag .ReactTags__remove{
+    display: none;
+}
+
+.phases-canvas .phase.alt .react-tags-wrapper .ReactTags__tag .ReactTags__remove{
+    display: block;
 }
 
 .phases-canvas .phase .modified{

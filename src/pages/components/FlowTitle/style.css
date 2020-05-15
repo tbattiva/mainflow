@@ -1,0 +1,16 @@
+#flow-title{
+    display: flex;
+    align-items: flex-end
+}
+
+#flow-title .txt{
+    min-width: 30px;
+    text-transform: capitalize;
+}
+
+#flow-title .menu-edit{
+    display: flex;
+    align-items: flex-end;
+    top: -4px;
+    position: relative;
+}

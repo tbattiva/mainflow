@@ -39,8 +39,16 @@
     color:#626262;
 }
 
+#main-panel.alt > .title .main-title{
+    text-decoration: underline;
+}
+
 #main-panel > .subtitle{
     margin-top: 40px;
     font-size: 18px;
     color:#626262;
+}
+
+#main-panel.alt > .subtitle{
+    text-decoration: underline;
 }

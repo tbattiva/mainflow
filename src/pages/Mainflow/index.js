@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import {FiPower, FiSearch, FiTrash2} from 'react-icons/fi';
+import {FiPower, FiSearch, FiTrash2, FiEdit3, FiSave} from 'react-icons/fi';
 
 import backend from '../../services/backend';
 
@@ -10,6 +10,7 @@ import LeftMenu from '../components/LeftMenu';
 import MainPanel from '../components/MainPanel';
 import RightMenu from '../components/RightMenu';
 import Welcome from '../components/Welcome';
+import FlowTitle from '../components/FlowTitle';
 
 
 import './style.css';
@@ -124,12 +125,63 @@ export default function Mainflow(props){
             const openedFlow = await backend.get(`/flows/${flowId}`);
             fSetContent(
                 (<PhaseEditor phases={openedFlow.data.phases} flowId={flowId} />),
-                openedFlow.data.name,
+                (<FlowTitle title={openedFlow.data.name}>
+                    <FiEdit3 
+                        className="edit icon-btn"
+                        onClick={startFlowUpdate}
+                    />
+                    <FiSave 
+                        style={{display:"none"}}
+                        className="save icon-btn"
+                        onClick={e => {handleFlowUpdate(flowId)}}
+                    />
+                </FlowTitle>),
                 openedFlow.data.description
             );
         } catch (error) {
             alert("Something went wrong!")
         }
+    }
+
+    async function handleFlowUpdate(flowId){
+        const data = {
+            name:MainPanel.getTitle(),
+            description:MainPanel.getSubtitle()
+        }
+        try {
+            await backend.put(`/flows/${flowId}`, data);
+            alert("Flow Updated!");
+            stopFlowUpdate();
+            return;
+        } catch (error) {
+            alert("Something went wrong!");
+            console.log(error);
+        }
+    }
+
+    function startFlowUpdate(){
+        const title = MainPanel.elements.title[0];
+        const subtitle = MainPanel.elements.subtitle[0];
+
+        MainPanel.setUpdateModeOn();
+
+        title.querySelector(".txt").setAttribute("contentEditable", true);
+        subtitle.setAttribute("contentEditable", true);
+
+        title.querySelector(".edit").style.display = "none";
+        title.querySelector(".save").style.display = "block";
+    }
+    function stopFlowUpdate(){
+        const title = MainPanel.elements.title[0];
+        const subtitle = MainPanel.elements.subtitle[0];
+
+        MainPanel.setUpdateModeOff();
+
+        title.querySelector(".txt").setAttribute("contentEditable", false);
+        subtitle.setAttribute("contentEditable", false);
+
+        title.querySelector(".edit").style.display = "block";
+        title.querySelector(".save").style.display = "none";
     }
 
     //* ========================================== *//
@@ -191,7 +243,7 @@ export default function Mainflow(props){
                             <li className='flow-item ' id={item._id} key={item._id} onClick={e => handleFlowOpening(item._id)}>
                                 <div className="data">
                                     <span className='title'>{item.name}</span> 
-                                    <span className='description'>{item.description}...</span> 
+                                    <span className='description'>{`${item.description.toString().substring(0, 20)} ...`}</span> 
                                 </div>
                                 <div className='play-btn'>
                                     <FiTrash2 

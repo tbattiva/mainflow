@@ -127,4 +127,16 @@ button.confirm{
 }
 
 
+/* ================== */
+
+.icon-btn{
+  font-size: 20px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.icon-btn:hover{
+  stroke: #8FC102;
+}
+
+
   

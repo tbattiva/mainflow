@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
-import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave} from 'react-icons/fi';
+import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiEdit3} from 'react-icons/fi';
 
 import './style.css';
 import './tag.css';
@@ -20,15 +20,22 @@ export default function PhaseEditor(props){
        
     const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+    const suggestions1 =  [
+        { id: "CC 0000", text: "CC 0000" },
+        { id: 'CC 0004', text: 'CC 0004' },
+        { id: 'true', text: 'true' },
+        { id: 'false', text: 'false' },
+    ]
+
+
     const [tagsCollection, setTagsCollection] = useState({
         tags: [
             { id: "CC 0000", text: "CC 0000" },
         ],
-        suggestions: [
-            { id: 'CC 0004', text: 'CC 0004' },
-        ]
+        suggestions: suggestions1
     });
 
+    
     const { tags, suggestions } = tagsCollection;
 
     function handleDelete(i) {
@@ -42,6 +49,17 @@ export default function PhaseEditor(props){
         setTagsCollection(tagsCollection => ({ tags: [...tagsCollection.tags, tag] }));
     }
 
+    function handlePhaseTagDelete(i, phaseIx) {
+        phasesClone[phaseIx].nextPhaseCondition = phasesClone[phaseIx].nextPhaseCondition.filter((cond, index) => index !== i);
+        setPhases(phasesClone);
+    }
+ 
+    function handlePhaseTagAddition(tag, ix) {
+        if (!phasesClone[ix].nextPhaseCondition) phasesClone[ix].nextPhaseCondition = []
+        phasesClone[ix].nextPhaseCondition.push(tag.id);
+        setPhases(phasesClone);
+    }
+
     // END: TAGS
 
     const [phases, setPhases] = useState(props.phases) ;
@@ -52,8 +70,26 @@ export default function PhaseEditor(props){
     const [newPhaseDescription, setNewPhasesDescription] = useState("");
     const [newPhaseObject, setNewPhasesObject] = useState("");
 
+
+
     function handleNewPhaseType(vle){
         setNewPhaseType(vle);
+        if (vle == 3 ){
+            setTagsCollection({
+                tags: [
+                    { id: "true", text: "true" },
+                ],
+                suggestions
+            });
+        }
+        else{
+            setTagsCollection({
+                tags: [
+                    { id: "CC 0000", text: "CC 0000" },
+                ],
+                suggestions
+            });
+        }
         document.getElementsByClassName("new-phase-board")[0].style.display = "block";
 
     }
@@ -65,45 +101,37 @@ export default function PhaseEditor(props){
         }
     }
 
-    
-
     function startEdition(phase){
         phase.classList.add("alt");
-        phase.querySelector(".title > div").setAttribute("contentEditable", true);
+        phase.querySelector(".title>div").setAttribute("contentEditable", true);
         phase.querySelector(".description").setAttribute("contentEditable", true);
         phase.querySelector(".object").disabled = false;
     }
     function stopEdition(phase){
         phase.classList.remove("alt");
-        phase.querySelector(".title > div").setAttribute("contentEditable", false);
+        phase.querySelector(".title>div").setAttribute("contentEditable", false);
         phase.querySelector(".description").setAttribute("contentEditable", false);
         phase.querySelector(".object").disabled = true;
     }
+
 
     function handlePhaseObjectChange(vle, ix){
         phasesClone[ix].object = vle;
         setPhases(phasesClone);
     } 
 
-    async function savePhase(phase){
-        // 
-        const phasesList = Array.prototype.slice.call(document.getElementsByClassName("phases-canvas")[0].children);
-        const data = {
-            name: phase.querySelector(".title > div").innerText,
-            description: phase.querySelector(".description").innerText,
-            object: phase.querySelector(".object").value,
-            seqNum: phasesList.indexOf(phase),
-            type:phase.querySelector(".type").value
-        }
+    async function savePhase(phase, ix){
+        phasesClone[ix].name = phase.querySelector(".title>div").innerText;
+        phasesClone[ix].description = phase.querySelector(".description").innerText;
+        setPhases(phasesClone);
         try {
-            const resp = await backend.put(`/flows/${props.flowId}/phases/${phase.querySelector(".id").value}`, data);
+            const resp = await backend.put(`/flows/${props.flowId}/phases/${phase.querySelector(".id").value}`, phases[ix]);
             alert("Phase updated!");
             stopEdition(phase);
         } catch (error) {
             alert("Something went wrong!");
         }
     }
-
 
     async function deletePhase(obj, phaseId){
         if (window.confirm("Are You sure?\n You won`t be able to undo this operation!")){
@@ -119,7 +147,7 @@ export default function PhaseEditor(props){
 
     async function saveNewPhase(){
 
-        const nextPhaseCondition = tagsCollection.tags.map((value, ix) => value.text);
+        const nextPhaseCondition = tagsCollection.tags.map((value, ix) => value.id);
 
         const data = {
             name: newPhaseName,
@@ -160,19 +188,43 @@ export default function PhaseEditor(props){
     }
 
     function drawPhase(phase, ix){
+        let tags = [];
+        if (phase.nextPhaseCondition) {
+            tags = phase.nextPhaseCondition.map((vl) => {return {id:vl, text:vl}});
+        }
+
         return (
             <div className="phase" key={phase._id}>
                 <input className="id" type="hidden" value={phase._id}></input>
                 <input className="type" type="hidden" value={phase.type}></input>
                 <div className="upper-menu"> 
                     <div className="btn edition"><FiXCircle size="16" onClick={e => {stopEdition(e.target.closest(".phase"))}}/></div>
-                    <div className="btn edition"><FiSave size="16" onClick={e => savePhase(e.target.closest(".phase"))} /></div>
+                    <div className="btn edition"><FiSave size="16" onClick={e => savePhase(e.target.closest(".phase"), ix)} /></div>
                     <div className="btn"><FiEdit size="16" onClick={e => {startEdition(e.target.closest(".phase"))}}/></div>
                     <div className="btn"><FiTrash2 size="16" onClick={e => {deletePhase(e.target.closest(".phase"), phase._id)}}/></div>
                 </div>
-                <div className="title" ><div  onKeyPress={e => handlePhaseTextChange(e, 30)}>{phase.name}</div> <span style={{"fontSize":"12px","color":"#c1c1c1"}}>({phase.type<=2?"JOB":"Command"})</span></div>
-                <div className="description"  onKeyPress={e => handlePhaseTextChange(e, 300)}>{phase.description}</div>
-                <textarea className="object" value={phase.object} onChange={e => handlePhaseObjectChange(e.target.value, ix)}> </textarea>
+                <div 
+                    className="title" 
+                    onKeyPress={e => handlePhaseTextChange(e, 30)}
+                >
+                    <div>{phase.name}</div>
+                    <span style={{"fontSize":"12px","color":"#c1c1c1"}}>({phase.type<=2?"JOB":"Command"})</span>
+                </div>
+                <div  
+                    className="description" 
+                    onKeyPress={e => handlePhaseTextChange(e, 300)}
+                >{phase.description} </div>
+                <ReactTags 
+                    placeholder="keep running conditions"
+                    autofocus={false}
+                    tags={tags}
+                    suggestions={suggestions1}
+                    handleDelete={(i) => {handlePhaseTagDelete(i,ix)}}
+                    handleAddition={(tag) => {handlePhaseTagAddition(tag,ix)}}
+                    allowDragDrop={false} 
+                    delimiters={delimiters} />
+                <textarea className="object" rows="3" value={phase.object} onChange={e => handlePhaseObjectChange(e.target.value, ix)}> </textarea>
+                
                 <span className="modified">modified: {phase.modified.replace('T', ' ').substring(0, 16)}</span>
             </div>
         );
