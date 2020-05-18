@@ -32,6 +32,7 @@
 #left-menu .menu-grp .menu-item{
     display: flex;
     align-items: center;
+    position: relative;
     background-color: transparent;
     height: 50px;
 
@@ -46,4 +47,27 @@
 
 #left-menu .menu-grp .menu-item svg:hover{
     stroke: #77A102;
+}
+
+#left-menu .menu-grp .menu-item .notification-icon{
+    position: absolute;
+    display: none;
+    height: 15px;
+    width: 15px;
+    
+    bottom:5px;
+    right: 20px;
+
+    border: solid 1px #77A102;
+    border-radius: 50%;
+    transform: rotate(90deg);
+    background-color: #B6D06E;
+}
+
+#left-menu .menu-grp .menu-item .notification-icon svg{
+    position: relative;
+    top:-1px;
+    stroke: #77A102;
+    stroke-width: 5px;
+    transform: scale(0.6);
 }

@@ -8,6 +8,7 @@
     justify-content: flex-end;
     align-items: center;
     flex-direction: row;
+    position: relative;
 }
 
 .phase-editor .menu-action .action{
@@ -33,9 +34,58 @@
 }
 .phase-editor .menu-action .action:hover svg{
     stroke: #8FC102;
-
+    
 }
 
+.phase-editor .menu-action .balloon{
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    transform: translate(0, calc(100% + 15px));
+    z-index: 1;
+
+    max-width: 30em;
+    width: 300px;
+    
+    background-color: #fff;
+    padding: 1.125em 1.5em;
+    font-size: 1.25em;
+    border-radius: 1rem;
+    box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);    
+    
+}
+
+.phase-editor .menu-action .balloon::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 100%;
+    right: 1.5em; 
+    border: .75rem solid transparent;
+    border-top: none;
+
+    border-bottom-color: #fff;
+    filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}
+
+.phase-editor .menu-action .balloon input{
+    margin:5px 0px;
+    border: solid thin #c1c1c1;
+}
+
+.phase-editor .menu-action .balloon .select{
+    width: 100%;
+    margin:5px 0px;
+    border: solid thin #c1c1c1;
+}
+
+.phase-editor .menu-action .balloon .select::after{
+    top: -4px;
+}
+.phase-editor .menu-action .balloon button{
+    margin:5px 0px;
+}
 .phases-canvas{
     margin-top: 100px;
 }

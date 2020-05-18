@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
 import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiEdit3} from 'react-icons/fi';
 
+import LeftMenu from "../LeftMenu";
+
 import './style.css';
 import './tag.css';
 
@@ -113,7 +115,6 @@ export default function PhaseEditor(props){
         phase.querySelector(".description").setAttribute("contentEditable", false);
         phase.querySelector(".object").disabled = true;
     }
-
 
     function handlePhaseObjectChange(vle, ix){
         phasesClone[ix].object = vle;
@@ -230,10 +231,71 @@ export default function PhaseEditor(props){
         );
     }
 
+
+    function switchCredentialsForm(toOpen=true){
+        const disp = toOpen? "block" : "none";
+        document.getElementsByClassName("credentials")[0]
+            .style
+                .display = disp;
+    }
+
+    const [hostObj, setHostObj] = useState("");
+    const [user, setUser] = useState("");
+    const [pass, setPass] = useState("");
+
+    async function runFlow(e, flowId){
+        e.preventDefault();
+        const userId = localStorage.getItem("user-id");
+
+        const host = hostObj.split(":");
+        const credentials = {
+            host: host[0],
+            port: host[1],
+            user,
+            pass
+        }
+        switchCredentialsForm(false);
+        try {
+            const instanceData = await backend.post(
+                `/flows/${flowId}/start`,
+                credentials,
+                {
+                    headers:{
+                        "user-id":userId
+                    }
+                }
+            );
+            console.log(instanceData);
+            LeftMenu.turnNotificationOn();
+        } catch (error) {
+            console.log(error);
+            alert("Something went wrong while trying to run the Flow!");
+        }
+    }
+
     return(
         <div className="phase-editor">
             <div className="menu-action">
-                <div className="action"><span>Execute</span><FiPlayCircle size="20" /></div>
+                <div className="action" onClick={() => switchCredentialsForm(true)}>
+                    <span>Execute</span><FiPlayCircle size="20" />
+                </div>
+                <form 
+                    className="balloon credentials" 
+                    onSubmit={e => {runFlow(e, props.flowId)}}
+                    onMouseLeave={() => switchCredentialsForm(false)}
+                >
+                    <div className="select">
+                        <select onChange={(e) => setHostObj(e.target.value)}>
+                            <option selected disabled>Host</option>
+                            {props.hosts.map(host =>(
+                                <option value={host.ip+":"+host.port}>{host.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <input type="text" placeholder="username" onChange={(e) => setUser(e.target.value)} />
+                    <input type="password" placeholder="password" onChange={(e) => setPass(e.target.value)}/>
+                    <button className="confirm">Run</button>
+                </form>
             </div>
             <div className="phases-canvas">
                 {phases.map((phase, ix) => {                    

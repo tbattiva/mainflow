@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState, Component} from 'react';
 import {FiLayers, FiHexagon} from 'react-icons/fi';
+
+import backend from '../../../services/backend';
 
 import NewFlow from '../NewFlow';
 import NewHost from '../NewHost';
 
 import './style.css';
+import LeftMenu from '../LeftMenu';
 
-export default function Welcome(props){
-    return (
-        <div className="welcome">
+export default function Welcome(props) {
+    
+    const [instances, setInstances] = useState([]);
+
+    useEffect(() => {
+        backend.get('/execs/summary/desc')
+            .then(resp => {
+                console.log(resp);
+                setInstances(resp.data);
+            });
+    }, [])
+
+    return (<div className="welcome">
             <div className="add-new-menu">
                 <div className="add-new-item" 
                     onClick={e => 
@@ -48,22 +61,41 @@ export default function Welcome(props){
             </div>
             <div className="running-flows-list">
                 <div className="title">Running Flows</div>
-                <div className="flow-instance">
-                    <div className="title">FLOW TEST (Phase 2)</div>
-                    <div className="status running">16:37 - May 7th- Running</div>
-                </div>
+                {instances.filter(instance => {if(instance.status === "running") return instance})
+                    .map(instance => {
+                        LeftMenu.turnNotificationOn();
+                        let time = instance.status === "running"? instance.starttime: instance.endtime; 
+                        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit" };  
+                        time = new Date(time).toLocaleDateString('en-US', options);
+
+                        return (
+                            <div className="flow-instance" key={instance._id}>
+                                <div className="title">{instance.flowId.name} (Phase {instance.phase-1}/{instance.size})</div>
+                                <div className={`status ${instance.status}`}>{time} - {instance.status}</div>
+                            </div>
+                        );
+                    })
+
+                }
             </div>
             <div className="previous-flows-list">
                 <div className="title">Previous</div>
-                <div className="flow-instance">
-                    <div className="title">FLOW TEST (Phase 2)</div>
-                    <div className="status error">16:37 - May 7th- ABENDED</div>
-                </div>
-                <div className="flow-instance">
-                    <div className="title">FLOW TEST (Phase 2)</div>
-                    <div className="status ended">16:37 - May 7th- Ended</div>
-                </div>
-            </div>
+                {instances.filter(instance => {if(instance.status !== "running") return instance})
+                    .map(instance => {
+                        let time = instance.status === "running"? instance.starttime: instance.endtime; 
+                        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit" };  
+                        time = new Date(time).toLocaleDateString('en-US', options);
+
+                        return (
+                            <div className="flow-instance" key={instance._id}>
+                                <div className="title">{instance.flowId.name} (Phase {instance.phase-1}/{instance.size})</div>
+                                <div className={`status ${instance.status}`}>{time} - {instance.status}</div>
+                            </div>
+                        );
+                    })
+                }
+            </div> 
         </div>
     );
+    
 }

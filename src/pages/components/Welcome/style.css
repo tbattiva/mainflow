@@ -98,3 +98,6 @@
 .welcome [class*='flows-list'] .flow-instance .status.ended{
     color: #C1C1C1;
 }
+.welcome [class*='flows-list'] .flow-instance .status.stoped{
+    color: goldenrod;
+}

@@ -87,6 +87,9 @@ export default function Mainflow(props){
     }, [hostListChange]);
 
 
+
+
+
     async function handleFlowDeletion(flowId, obj){
 
         const delOp = await backend.delete(`/flows/${flowId}`);
@@ -124,7 +127,10 @@ export default function Mainflow(props){
         try {
             const openedFlow = await backend.get(`/flows/${flowId}`);
             fSetContent(
-                (<PhaseEditor phases={openedFlow.data.phases} flowId={flowId} />),
+                (<PhaseEditor 
+                    phases={openedFlow.data.phases} 
+                    hosts={hostList}
+                    flowId={flowId} />),
                 (<FlowTitle title={openedFlow.data.name}>
                     <FiEdit3 
                         className="edit icon-btn"
@@ -139,7 +145,8 @@ export default function Mainflow(props){
                 openedFlow.data.description
             );
         } catch (error) {
-            alert("Something went wrong!")
+            console.log(error)
+            alert("Something went wrong when trying to open Flow!")
         }
     }
 
@@ -189,10 +196,12 @@ export default function Mainflow(props){
     const [title, setTitle] = useState("MAINFLOW");
     const [subtitle, setSubtitle] = useState('Lorem Ipsum is simply dummy text of the printing and typesetting industry. ');
 
-    const fSetContent = (component, title = 'MAINFLOW', subtitle='Lorem Ipsum is simply dummy text of the printing and typesetting industry. ') =>{
-        setMainContent(component)
-        setTitle(title);   
-        setSubtitle(subtitle);   
+    const fSetContent = (component, 
+        title = 'MAINFLOW', 
+        subtitle='Lorem Ipsum is simply dummy text of the printing and typesetting industry. ') =>{
+            setMainContent(component)
+            setTitle(title);   
+            setSubtitle(subtitle);   
     }
 
 

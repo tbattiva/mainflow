@@ -1,12 +1,21 @@
-import React from 'react';
-import { FiHome, FiList, FiBarChart2 } from 'react-icons/fi';
+import React, { Component } from 'react';
+import { FiHome, FiList, FiBarChart2, FiTriangle } from 'react-icons/fi';
 
 import Welcome from '../Welcome';
 
 import './style.css';
 import logo from '../../../assets/logo.svg';
 
-export default function LeftMenu(props){
+export default class LeftMenu extends Component{
+
+    static turnNotificationOn = () => {
+        document
+            .getElementsByClassName("notification-icon")[0]
+                .style.display = "flex";
+    }
+
+
+    render(){
     return(
         <div id='left-menu'>
             <div className='logo'>
@@ -14,8 +23,11 @@ export default function LeftMenu(props){
             </div>
             <div className='menu-grp'>
 
-                <div className='menu-item' onClick={e => props.setContent((<Welcome setContent={props.setContent}/>))}>
+                <div className='menu-item' onClick={e => this.props.setContent((<Welcome setContent={this.props.setContent}/>))}>
                     <FiHome size="22"/>
+                    <div className="notification-icon">
+                        <FiTriangle />
+                    </div>
                 </div>
                 <div className='menu-item'>
                     <FiList size="22"/>
@@ -26,4 +38,5 @@ export default function LeftMenu(props){
             </div>
         </div>
     );
+    }
 }
