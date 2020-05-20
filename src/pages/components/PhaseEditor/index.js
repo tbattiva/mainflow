@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
-import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiEdit3} from 'react-icons/fi';
+import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle} from 'react-icons/fi';
 
 import LeftMenu from "../LeftMenu";
 
@@ -8,10 +8,40 @@ import './style.css';
 import './tag.css';
 
 import backend from '../../../services/backend';
+import MainPanel from '../MainPanel';
 
 export default function PhaseEditor(props){
 
     const author = localStorage.getItem("user-id");
+
+    useEffect(() =>{
+        backend.get(`/flows/check/${props.flowId}`)
+            .then(respCheck => {
+                if(respCheck.data.isRunning === true) {
+                    MainPanel.setRunningModeOn();
+                    setRunningIpLabel(respCheck.data.instance.ip);
+                } 
+            })
+    }, [props.flowId]);
+
+    const [hostList, setHostList] = useState([]);
+
+    useEffect(() => {
+        backend.get('/hosts',{headers:{"user-id": author}})
+            .then(resp => {
+                setHostList(resp.data);
+            })
+            .catch(err => {
+                alert("error");
+                console.log(err)
+            });
+        
+    }, [author]);
+
+
+    function setRunningIpLabel(ip){
+        document.querySelector("#flow-title .running-status .host").innerText = ip;
+    }
 
     // START: TAGS
 
@@ -29,14 +59,12 @@ export default function PhaseEditor(props){
         { id: 'false', text: 'false' },
     ]
 
-
     const [tagsCollection, setTagsCollection] = useState({
         tags: [
             { id: "CC 0000", text: "CC 0000" },
         ],
         suggestions: suggestions1
     });
-
     
     const { tags, suggestions } = tagsCollection;
 
@@ -72,11 +100,9 @@ export default function PhaseEditor(props){
     const [newPhaseDescription, setNewPhasesDescription] = useState("");
     const [newPhaseObject, setNewPhasesObject] = useState("");
 
-
-
     function handleNewPhaseType(vle){
         setNewPhaseType(vle);
-        if (vle == 3 ){
+        if (vle === 3 ){
             setTagsCollection({
                 tags: [
                     { id: "true", text: "true" },
@@ -126,7 +152,7 @@ export default function PhaseEditor(props){
         phasesClone[ix].description = phase.querySelector(".description").innerText;
         setPhases(phasesClone);
         try {
-            const resp = await backend.put(`/flows/${props.flowId}/phases/${phase.querySelector(".id").value}`, phases[ix]);
+            await backend.put(`/flows/${props.flowId}/phases/${phase.querySelector(".id").value}`, phases[ix]);
             alert("Phase updated!");
             stopEdition(phase);
         } catch (error) {
@@ -231,7 +257,6 @@ export default function PhaseEditor(props){
         );
     }
 
-
     function switchCredentialsForm(toOpen=true){
         const disp = toOpen? "block" : "none";
         document.getElementsByClassName("credentials")[0]
@@ -245,7 +270,6 @@ export default function PhaseEditor(props){
 
     async function runFlow(e, flowId){
         e.preventDefault();
-        const userId = localStorage.getItem("user-id");
 
         const host = hostObj.split(":");
         const credentials = {
@@ -261,22 +285,45 @@ export default function PhaseEditor(props){
                 credentials,
                 {
                     headers:{
-                        "user-id":userId
+                        "user-id":author
                     }
                 }
             );
             console.log(instanceData);
             LeftMenu.turnNotificationOn();
+            MainPanel.setRunningModeOn();
         } catch (error) {
             console.log(error);
             alert("Something went wrong while trying to run the Flow!");
         }
     }
 
+    async function stopFlow(flowId){
+        try {
+            const instanceData = await backend.delete(
+                `/flows/${flowId}/stop`,
+                null,
+                {
+                    headers:{
+                        "user-id":author
+                    }
+                }
+            );
+            console.log(instanceData);
+            MainPanel.setRunningModeOff();
+        } catch (error) {
+            console.log(error);
+            alert("Something went wrong while trying to stop the Flow!");
+        }
+    }
+
     return(
         <div className="phase-editor">
             <div className="menu-action">
-                <div className="action" onClick={() => switchCredentialsForm(true)}>
+                <div className="action stop" onClick={() => {stopFlow(props.flowId)}}>
+                    <span>Stop</span><FiStopCircle size="20" />
+                </div>
+                <div className="action start" onClick={() => switchCredentialsForm(true)}>
                     <span>Execute</span><FiPlayCircle size="20" />
                 </div>
                 <form 
@@ -287,8 +334,8 @@ export default function PhaseEditor(props){
                     <div className="select">
                         <select onChange={(e) => setHostObj(e.target.value)}>
                             <option selected disabled>Host</option>
-                            {props.hosts.map(host =>(
-                                <option value={host.ip+":"+host.port}>{host.name}</option>
+                            {hostList.map(host =>(
+                                <option key={host._id} value={host.ip+":"+host.port}>{host.name}</option>
                             ))}
                         </select>
                     </div>

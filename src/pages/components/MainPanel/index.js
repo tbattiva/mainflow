@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 import './style.css';
 
@@ -7,6 +8,16 @@ export default class MainPanel extends Component{
     static elements = {
         title: document.getElementsByClassName("main-title"),
         subtitle: document.getElementsByClassName("subtitle"),
+    }
+
+    static setRunningModeOn = () =>{
+        document.getElementById("main-panel").classList.add("running");
+        return;
+    }
+
+    static setRunningModeOff = () =>{
+        document.getElementById("main-panel").classList.remove("running");
+        return;
     }
 
     static setUpdateModeOn = () =>{
@@ -24,7 +35,23 @@ export default class MainPanel extends Component{
         return this.elements.subtitle[0].innerText;
     }
 
+    static setTitle = (str) =>{
+        ReactDOM.render(str, document.querySelector("#main-panel .main-title"));
+    }
+
+    static setSubtitle = (str) =>{
+        ReactDOM.render(str, document.querySelector("#main-panel .subtitle"));
+    }
+
+    static setMainContent = (content) =>{
+        ReactDOM.render(content, document.querySelector("#main-panel .main-content"));
+    }
+
+    
+
     render(){
+        
+
         return <div id='main-panel'>
             <div className='title'>
                 <div className='before-title'>{this.props.beforeTitle}</div>
@@ -33,7 +60,7 @@ export default class MainPanel extends Component{
             <div className='subtitle'>
                 {this.props.subtitle}
             </div>
-            <div>
+            <div className="main-content">
                 {this.props.children}
             </div>
         </div>

@@ -37,6 +37,16 @@
     
 }
 
+.running .phase-editor .menu-action .action.start{
+    display: none;
+}
+.phase-editor .menu-action .action.stop{
+    display: none;
+}
+.running .phase-editor .menu-action .action.stop{
+    display: flex;
+}
+
 .phase-editor .menu-action .balloon{
     display: none;
     position: absolute;
@@ -137,6 +147,9 @@
     right: 0px;
 }
 
+.running .phases-canvas .phase .upper-menu{
+    display: none;
+}
 
 
 .phases-canvas .phase .upper-menu .btn{
@@ -284,6 +297,11 @@
     border-radius: 2px;
     background-color: #dfdfdf;
 }
+
+.running .phase-editor .new-phase{
+    display: none;
+}
+
 .phase-editor .new-phase .selector{
     display: flex;
     flex-direction: row;

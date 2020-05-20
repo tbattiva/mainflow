@@ -14,3 +14,25 @@
     top: -4px;
     position: relative;
 }
+
+.running #flow-title .menu-edit{
+    display:none;
+}
+#flow-title .running-status{
+    display: none;
+    flex-direction: column;
+    font-size: 14px;
+    
+    margin-left:12px;
+}
+
+.running #flow-title .running-status{
+    display:flex;
+}
+#flow-title .running-status .status{
+    color:#77A102;
+}
+
+#flow-title .running-status .host{
+    color:#8FC102;
+}

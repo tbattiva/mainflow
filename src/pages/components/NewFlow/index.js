@@ -4,6 +4,7 @@ import {FiLayers} from 'react-icons/fi';
 import Welcome from '../Welcome';
 
 import './style.css';
+import { setContent } from '../../Mainflow/content';
 
 import backend from '../../../services/backend';
 
@@ -25,7 +26,7 @@ export default function NewFlow(props){
             const resp = await backend.post("/flows", data);
             if(resp.status === 200) {
                 alert("New Flow added!")
-                props.setContent((<Welcome setContent={props.setContent}/>))
+                setContent((<Welcome />))
                 props.resetList();
             }
             else {
@@ -41,7 +42,7 @@ export default function NewFlow(props){
 
     function handleCancel(e){
         e.preventDefault();
-        props.setContent((<Welcome setContent={props.setContent}/>));
+        setContent((<Welcome />));
     }
 
     return (

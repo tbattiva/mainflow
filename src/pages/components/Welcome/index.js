@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FiLayers, FiHexagon} from 'react-icons/fi';
 
 import backend from '../../../services/backend';
@@ -9,9 +9,12 @@ import NewHost from '../NewHost';
 import './style.css';
 import LeftMenu from '../LeftMenu';
 
+import { setContent } from '../../Mainflow/content';
+
 export default function Welcome(props) {
     
     const [instances, setInstances] = useState([]);
+    const runningStatus = ["running", "starting", "stopping"];
 
     useEffect(() => {
         backend.get('/execs/summary/desc')
@@ -26,9 +29,8 @@ export default function Welcome(props) {
                 <div className="add-new-item" 
                     onClick={e => 
                         {
-                            props.setContent(
+                            setContent(
                                 (<NewFlow 
-                                    setContent={props.setContent} 
                                     resetList={props.resetList}
                                     resetHostList={props.resetHostList}
                                 />),
@@ -42,9 +44,8 @@ export default function Welcome(props) {
                         <div className="subtitle">Add a new flow to your collection</div>
                     </div>
                 </div>
-                <div className="add-new-item" onClick={e => {props.setContent(
+                <div className="add-new-item" onClick={e => {setContent(
                         (<NewHost 
-                            setContent={props.setContent}
                             resetList={props.resetList}
                             resetHostList={props.resetHostList}
                         />),
@@ -61,10 +62,10 @@ export default function Welcome(props) {
             </div>
             <div className="running-flows-list">
                 <div className="title">Running Flows</div>
-                {instances.filter(instance => {if(instance.status === "running") return instance})
+                {instances.filter(instance => {return runningStatus.indexOf(instance.status) >= 0})
                     .map(instance => {
                         LeftMenu.turnNotificationOn();
-                        let time = instance.status === "running"? instance.starttime: instance.endtime; 
+                        let time = instance.starttime;
                         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit" };  
                         time = new Date(time).toLocaleDateString('en-US', options);
 
@@ -80,9 +81,9 @@ export default function Welcome(props) {
             </div>
             <div className="previous-flows-list">
                 <div className="title">Previous</div>
-                {instances.filter(instance => {if(instance.status !== "running") return instance})
+                {instances.filter(instance => {return runningStatus.indexOf(instance.status) < 0})
                     .map(instance => {
-                        let time = instance.status === "running"? instance.starttime: instance.endtime; 
+                        let time = instance.endtime; 
                         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit" };  
                         time = new Date(time).toLocaleDateString('en-US', options);
 

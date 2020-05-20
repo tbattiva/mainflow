@@ -3,8 +3,11 @@ import { FiHome, FiList, FiBarChart2, FiTriangle } from 'react-icons/fi';
 
 import Welcome from '../Welcome';
 
+import { setContent } from '../../Mainflow/content';
+
 import './style.css';
 import logo from '../../../assets/logo.svg';
+
 
 export default class LeftMenu extends Component{
 
@@ -23,7 +26,7 @@ export default class LeftMenu extends Component{
             </div>
             <div className='menu-grp'>
 
-                <div className='menu-item' onClick={e => this.props.setContent((<Welcome setContent={this.props.setContent}/>))}>
+                <div className='menu-item' onClick={e => setContent((<Welcome />))}>
                     <FiHome size="22"/>
                     <div className="notification-icon">
                         <FiTriangle />

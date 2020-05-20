@@ -4,10 +4,10 @@ import Routes from './routes';
 
 import './global.css';
 
-function App() {
+
+export default function App() {
   return (
     <Routes />
   );
 }
  
-export default App;

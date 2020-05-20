@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {FiHexagon} from 'react-icons/fi';
+import { setContent } from '../../Mainflow/content';
 
 import Welcome from '../Welcome';
+import { refreshHostList } from '../../utils/lists';
 
 import './style.css';
 
@@ -15,6 +17,7 @@ export default function NewHost(props){
     const [port, setPort] = useState("");
 
     const userId = localStorage.getItem("user-id");
+
 
     async function handleNewHost(e){
         e.preventDefault();
@@ -38,12 +41,8 @@ export default function NewHost(props){
                 });
             if(resp.status === 200) {
                 alert("New Host added!")
-                props.setContent((<Welcome 
-                    setContent={props.setContent}
-                    resetList={props.resetList}
-                    resetHostList={props.resetHostList}
-                />))
-                props.resetHostList(resp.data._id);
+                setContent((<Welcome />))
+                refreshHostList();
             }
             else {
                 alert("Error: The server couldn't add the new Host.");
@@ -58,7 +57,7 @@ export default function NewHost(props){
 
     function handleCancel(e){
         e.preventDefault();
-        props.setContent((<Welcome setContent={props.setContent}/>));
+        setContent((<Welcome />));
     }
 
     return (

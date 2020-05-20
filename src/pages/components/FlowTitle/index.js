@@ -11,6 +11,10 @@ export default class FlowTitle extends Component{
             <div className="menu-edit" >
                 {this.props.children}
             </div>
+            <div className="running-status">
+                <div className="status">Running...</div>
+                <div className="host">on xxx.xxx.x.x</div>
+            </div>
         </div>
         );
     
