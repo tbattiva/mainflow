@@ -1,5 +1,6 @@
 import React, {useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
+import {connect, disconnect} from '../../services/websocket';
 
 import {FiPower, FiSearch } from 'react-icons/fi';
 
@@ -16,17 +17,25 @@ import './hostList.css';
 export default function Mainflow(props){
     const history = useHistory();
 
-
     const userId = localStorage.getItem("user-id");
     //const [userName, setUserName] = useState(localStorage.getItem("user-name"));
 
     if (!userId) history.push("/");
 
+ 
+    setupWebsocket();
+
+    function setupWebsocket(){
+        disconnect();
+        connect();
+
+    }
+
     function handleLogout(){
 
         localStorage.removeItem('user-id');
         localStorage.removeItem('user-name');
-
+        disconnect();
         history.push("/");
     }
 

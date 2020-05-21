@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
 import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle} from 'react-icons/fi';
 
-import LeftMenu from "../LeftMenu";
-
 import './style.css';
 import './tag.css';
 
@@ -13,8 +11,8 @@ import MainPanel from '../MainPanel';
 export default function PhaseEditor(props){
 
     const author = localStorage.getItem("user-id");
-
     useEffect(() =>{
+        MainPanel.setRunningModeOff();
         backend.get(`/flows/check/${props.flowId}`)
             .then(respCheck => {
                 if(respCheck.data.isRunning === true) {
@@ -290,7 +288,6 @@ export default function PhaseEditor(props){
                 }
             );
             console.log(instanceData);
-            LeftMenu.turnNotificationOn();
             MainPanel.setRunningModeOn();
         } catch (error) {
             console.log(error);

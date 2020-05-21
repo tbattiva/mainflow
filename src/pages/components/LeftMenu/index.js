@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {flowStarted, flowFinished} from '../../../services/websocket';
 import { FiHome, FiList, FiBarChart2, FiTriangle } from 'react-icons/fi';
 
 import Welcome from '../Welcome';
@@ -9,16 +10,34 @@ import './style.css';
 import logo from '../../../assets/logo.svg';
 
 
-export default class LeftMenu extends Component{
+export default function LeftMenu() {
 
-    static turnNotificationOn = () => {
+    function turnNotificationOn(){
         document
             .getElementsByClassName("notification-icon")[0]
                 .style.display = "flex";
     }
 
+    function turnNotificationOff() {
+        document
+            .getElementsByClassName("notification-icon")[0]
+                .style.display = "none";
+    }
+    
+    function setupWebsocket(){
 
-    render(){
+        flowStarted((flowId, flowInstances) =>{
+            turnNotificationOn()
+        });
+
+        flowFinished((flowId, flowInstances) =>{
+            turnNotificationOff();
+        });
+    }
+
+
+    
+    setupWebsocket();
     return(
         <div id='left-menu'>
             <div className='logo'>
@@ -41,5 +60,5 @@ export default class LeftMenu extends Component{
             </div>
         </div>
     );
-    }
+    
 }

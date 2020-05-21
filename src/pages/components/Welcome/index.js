@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {flowStarted, flowFinished} from '../../../services/websocket';
 import {FiLayers, FiHexagon} from 'react-icons/fi';
 
 import backend from '../../../services/backend';
@@ -7,7 +8,6 @@ import NewFlow from '../NewFlow';
 import NewHost from '../NewHost';
 
 import './style.css';
-import LeftMenu from '../LeftMenu';
 
 import { setContent } from '../../Mainflow/content';
 
@@ -16,7 +16,18 @@ export default function Welcome(props) {
     const [instances, setInstances] = useState([]);
     const runningStatus = ["running", "starting", "stopping"];
 
+    function setupWebsocket(){
+        flowStarted((flowId, flowInstances) =>{
+            setInstances(flowInstances);
+        });
+
+        flowFinished((flowId, flowInstances) =>{
+            setInstances(flowInstances);
+        });
+    }
+
     useEffect(() => {
+        setupWebsocket();
         backend.get('/execs/summary/desc')
             .then(resp => {
                 console.log(resp);
@@ -64,7 +75,6 @@ export default function Welcome(props) {
                 <div className="title">Running Flows</div>
                 {instances.filter(instance => {return runningStatus.indexOf(instance.status) >= 0})
                     .map(instance => {
-                        LeftMenu.turnNotificationOn();
                         let time = instance.starttime;
                         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit" };  
                         time = new Date(time).toLocaleDateString('en-US', options);
