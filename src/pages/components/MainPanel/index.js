@@ -20,6 +20,14 @@ export default class MainPanel extends Component{
         return;
     }
 
+    static runningMode = () =>{
+        const classList = document.getElementById("main-panel").classList;
+        for (let index = 0; index < classList.length; index++) {
+            if (classList[index] === "running") return true;    
+        }
+        return false;
+    }
+
     static setUpdateModeOn = () =>{
         document.getElementById("main-panel").classList.add("alt");
         return;

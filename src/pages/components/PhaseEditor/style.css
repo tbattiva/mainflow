@@ -79,6 +79,25 @@
     filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
 }
 
+.phase-editor .menu-action .balloon .close-btn{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+
+    top:-8px;
+    left:-8px;
+
+    font-size: 12px;
+    background-color: #fff;
+    color: #016ed0;
+    border: solid 1.5px #016ed0;
+    border-radius: 50%;
+    z-index: 3;
+    cursor: pointer;
+}
 .phase-editor .menu-action .balloon input{
     margin:5px 0px;
     border: solid thin #c1c1c1;
@@ -152,6 +171,22 @@
 }
 
 
+.phases-canvas .phase .status{
+    display: none;
+    position: absolute;
+    
+    top:-28px;
+    
+    color: #626262;
+    font-size: 17px;
+}
+
+.phases-canvas .phase.done .status{
+    display: block;
+}
+.phases-canvas .phase .status.ok{
+    color: #8FC102;
+}
 .phases-canvas .phase .upper-menu .btn{
     margin: 0 4px;
 }

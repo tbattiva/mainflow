@@ -1,6 +1,6 @@
 import React, {useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
-import {connect, disconnect} from '../../services/websocket';
+import {connect, disconnect, teste } from '../../services/websocket';
 
 import {FiPower, FiSearch } from 'react-icons/fi';
 
@@ -22,14 +22,19 @@ export default function Mainflow(props){
 
     if (!userId) history.push("/");
 
+    useEffect(() => {
+        function setupWebsocket(){
+            disconnect();
+            connect();
+    
+            teste();
+        }
+
+        setupWebsocket();
+
+    })
  
-    setupWebsocket();
-
-    function setupWebsocket(){
-        disconnect();
-        connect();
-
-    }
+    
 
     function handleLogout(){
 

@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
-import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle} from 'react-icons/fi';
+import { sendMessage } from '../../../services/websocket';
+
+import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle, FiX} from 'react-icons/fi';
 
 import './style.css';
 import './tag.css';
@@ -12,15 +14,41 @@ export default function PhaseEditor(props){
 
     const author = localStorage.getItem("user-id");
     useEffect(() =>{
-        MainPanel.setRunningModeOff();
+        function setupWebsocket(){
+            sendMessage("flowStarted", (flowId, flowInstances, ipTarget) => {
+                console.log(arguments)
+                if(props.flowId === flowId) {
+                    setRunningIpLabel(ipTarget)
+                    MainPanel.setRunningModeOn();
+                }
+            });
+    
+            sendMessage("flowFinished",(flowId, flowInstances) => {
+                if(props.flowId === flowId) {
+                    resetPhasesStatus();
+                    MainPanel.setRunningModeOff();
+                }
+            });
+
+            sendMessage("phaseStarted", (flowId, phaseIx, flowInstances)=>{
+                
+            })
+            sendMessage("phaseFinished", (flowId, phaseIx, flowInstances)=>{
+                if(props.flowId === flowId) setPhaseAsEnded(phaseIx);
+            })
+        }
+
+        setupWebsocket()
         backend.get(`/flows/check/${props.flowId}`)
             .then(respCheck => {
                 if(respCheck.data.isRunning === true) {
-                    MainPanel.setRunningModeOn();
+                    
                     setRunningIpLabel(respCheck.data.instance.ip);
                 } 
             })
     }, [props.flowId]);
+
+    
 
     const [hostList, setHostList] = useState([]);
 
@@ -36,6 +64,21 @@ export default function PhaseEditor(props){
         
     }, [author]);
 
+    function setPhaseAsEnded(phaseIx){
+        if(MainPanel.runningMode()){
+            document
+                .querySelector(".phases-canvas")
+                    .getElementsByClassName("phase")[phaseIx-1]
+                        .classList.add("done");     
+        }
+    }
+
+    function resetPhasesStatus(){
+        const phases = document.querySelector(".phases-canvas").getElementsByClassName("phase");
+        for (let index = 0; index < phases.length; index++) {
+            phases[index].classList.remove("done");
+        } 
+    }
 
     function setRunningIpLabel(ip){
         document.querySelector("#flow-title .running-status .host").innerText = ip;
@@ -220,6 +263,7 @@ export default function PhaseEditor(props){
 
         return (
             <div className="phase" key={phase._id}>
+                <div className="status ok">Done</div>
                 <input className="id" type="hidden" value={phase._id}></input>
                 <input className="type" type="hidden" value={phase.type}></input>
                 <div className="upper-menu"> 
@@ -288,7 +332,6 @@ export default function PhaseEditor(props){
                 }
             );
             console.log(instanceData);
-            MainPanel.setRunningModeOn();
         } catch (error) {
             console.log(error);
             alert("Something went wrong while trying to run the Flow!");
@@ -307,7 +350,7 @@ export default function PhaseEditor(props){
                 }
             );
             console.log(instanceData);
-            MainPanel.setRunningModeOff();
+            alert("Command sent")
         } catch (error) {
             console.log(error);
             alert("Something went wrong while trying to stop the Flow!");
@@ -326,8 +369,10 @@ export default function PhaseEditor(props){
                 <form 
                     className="balloon credentials" 
                     onSubmit={e => {runFlow(e, props.flowId)}}
-                    onMouseLeave={() => switchCredentialsForm(false)}
                 >
+                    <div className="close-btn" onClick={() => switchCredentialsForm(false)}>
+                        <FiX />
+                    </div>
                     <div className="select">
                         <select onChange={(e) => setHostObj(e.target.value)}>
                             <option selected disabled>Host</option>

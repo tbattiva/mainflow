@@ -30,7 +30,7 @@ async function getFlowList(){
     }
 }
 
-async function refreshFlowList () {
+async function refreshFlowList() {
     const flowList = await getFlowList();
     let flDOM = (<div>
         {flowList.map(item => (
@@ -43,7 +43,8 @@ async function refreshFlowList () {
                     <FiTrash2 
                         onClick={
                             (e) => {
-                                handleFlowDeletion(item._id)
+                                e.stopPropagation();
+                                handleFlowDeletion(item._id, e.target)
                             }
                         }
                     />

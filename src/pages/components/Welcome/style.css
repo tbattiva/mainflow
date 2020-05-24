@@ -23,6 +23,10 @@
     cursor: pointer;
 }
 
+.welcome .add-new-menu .add-new-item.blue{
+    background-color: #016ed0;
+    border-color: #016ed0;
+}
 .welcome .add-new-menu .add-new-item svg{
     stroke: #626262;
 
@@ -31,6 +35,12 @@
 
     transition: top 0.3s ease-out;
 }
+
+.welcome .add-new-menu .add-new-item.blue svg{
+    stroke:#fff;
+}
+
+
 .welcome .add-new-menu .add-new-item .label{
     display: flex;
     flex-direction: column;
@@ -43,9 +53,15 @@
     color: #626262;
     font-size: 17px;
 }
+.welcome .add-new-menu .add-new-item.blue .label .title{
+    color:#fff;
+}
 .welcome .add-new-menu .add-new-item .label .subtitle{
     color: #9B9B9B;
     margin-top: 2px;
+}
+.welcome .add-new-menu .add-new-item.blue .label .subtitle{
+    color: #ededed;
 }
 
 .welcome .add-new-menu .add-new-item:hover svg{
@@ -78,6 +94,15 @@
     background-color: #D4D4D4;
     left: -13px;
     border-radius: 5px;
+}
+.welcome [class*='flows-list'] .flow-instance.stoped::before{
+    background-color: goldenrod;
+}
+.welcome [class*='flows-list'] .flow-instance.running::before{
+    background-color: #8FC102;
+}
+.welcome [class*='flows-list'] .flow-instance.error::before{
+    background-color: #A22E2E;
 }
 
 .welcome [class*='flows-list'] .flow-instance .title{

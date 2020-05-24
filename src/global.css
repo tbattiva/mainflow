@@ -72,7 +72,7 @@ select {
   }
   /* Transition */
   .select:hover::after {
-    color: #f39c12;
+    color: #016ed0;
   }
 
 

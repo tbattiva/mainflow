@@ -80,22 +80,30 @@ async function handleFlowOpening(flowId){
 
 async function handleFlowDeletion(flowId, obj){
 
-    const delOp = await backend.delete(`/flows/${flowId}`);
+    try {
+        const delOp = await backend.delete(`/flows/${flowId}`);
 
-    if (delOp.data.ret === 1){
-        alert("Flow deleted!!");
-    }
-    else if(delOp.data.ret === -1){
-        alert("Flow couldn't be deleted!");
+        if (delOp.data.ret === 1){
+            obj.parentElement.closest(".flow-item").remove();
+            alert("Flow deleted!!");
+        }
+        else if(delOp.data.ret === -1){
+            alert("Flow couldn't be deleted!");
+            
+        }
+        else if(delOp.data.ret === -2){
+            alert("Phases couldn't be deleted!");
+        }
+        else{
+            alert("Something got wrong!")
+        }
+        console.log(delOp.data);
         
+    } catch (error) {
+        alert("Something went wrong while deleting FLow!")
+        console.log(error);
     }
-    else if(delOp.data.ret === -2){
-        alert("Phases couldn't be deleted!");
-    }
-    else{
-        alert("Something got wrong!")
-    }
-    console.log(delOp.data);
+    
 }
 
 export {

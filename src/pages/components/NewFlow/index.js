@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {FiLayers} from 'react-icons/fi';
 
 import Welcome from '../Welcome';
+import { refreshFlowList } from '../../utils/lists';
 
 import './style.css';
 import { setContent } from '../../Mainflow/content';
@@ -27,7 +28,7 @@ export default function NewFlow(props){
             if(resp.status === 200) {
                 alert("New Flow added!")
                 setContent((<Welcome />))
-                props.resetList();
+                refreshFlowList();
             }
             else {
                 alert("Error: The server couldn't add the new Flow.");

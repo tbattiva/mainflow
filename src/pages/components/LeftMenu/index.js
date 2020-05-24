@@ -1,5 +1,5 @@
 import React from 'react';
-import {flowStarted, flowFinished} from '../../../services/websocket';
+import {setBeforeRunningFlowStarted, setBeforeRunningFlowFinished} from '../../../services/websocket';
 import { FiHome, FiList, FiBarChart2, FiTriangle } from 'react-icons/fi';
 
 import Welcome from '../Welcome';
@@ -9,33 +9,31 @@ import { setContent } from '../../Mainflow/content';
 import './style.css';
 import logo from '../../../assets/logo.svg';
 
+export function turnNotificationOn(){
+    document
+        .getElementsByClassName("notification-icon")[0]
+            .style.display = "flex";
+}
+
+export function turnNotificationOff() {
+    document
+        .getElementsByClassName("notification-icon")[0]
+            .style.display = "none";
+}
 
 export default function LeftMenu() {
-
-    function turnNotificationOn(){
-        document
-            .getElementsByClassName("notification-icon")[0]
-                .style.display = "flex";
-    }
-
-    function turnNotificationOff() {
-        document
-            .getElementsByClassName("notification-icon")[0]
-                .style.display = "none";
-    }
+    
     
     function setupWebsocket(){
 
-        flowStarted((flowId, flowInstances) =>{
+        setBeforeRunningFlowStarted((flowId, flowInstances) =>{
             turnNotificationOn()
         });
 
-        flowFinished((flowId, flowInstances) =>{
+        setBeforeRunningFlowFinished((flowId, flowInstances) =>{
             turnNotificationOff();
         });
     }
-
-
     
     setupWebsocket();
     return(
