@@ -9,6 +9,8 @@ import MainPanel from '../components/MainPanel';
 import RightMenu from '../components/RightMenu';
 import Welcome from '../components/Welcome';
 
+import strings from '../utils/strings';
+
 import {refreshHostList, refreshFlowList} from '../utils/lists';
 
 import './style.css';
@@ -75,8 +77,8 @@ export default function Mainflow(props){
 
     
     
-    const title = "MAINFLOW";
-    const subtitle = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ';
+    const title = strings.WELCOME_TITLE;
+    const subtitle = strings.WELCOME_SUBTITLE;
     const mainContent = (<Welcome />);
 
     return (

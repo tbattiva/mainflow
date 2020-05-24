@@ -1,9 +1,9 @@
 import MainPanel from '../components/MainPanel';
-
+import strings from '../utils/strings';
 
 function setContent (component, 
-    title = 'MAINFLOW', 
-    subtitle='Lorem Ipsum is simply dummy text of the printing and typesetting industry. ') {
+    title = strings.WELCOME_TITLE, 
+    subtitle = strings.WELCOME_SUBTITLE) {
         MainPanel.setRunningModeOff();
         MainPanel.setMainContent(component)
         MainPanel.setTitle(title);   
