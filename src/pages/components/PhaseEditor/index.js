@@ -2,6 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { sendMessage } from '../../../services/websocket';
 
+import {
+    setRunningIpLabel, 
+    resetPhasesStatus, 
+    setPhaseAsEnded, 
+    switchCredentialsForm, 
+    runFlow, 
+    stopFlow} from './execution';
+
 import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle, FiX} from 'react-icons/fi';
 
 import './style.css';
@@ -13,7 +21,25 @@ import MainPanel from '../MainPanel';
 export default function PhaseEditor(props){
 
     const author = localStorage.getItem("user-id");
+
+    const [hostList, setHostList] = useState([]);
+
+    const [hostObj, setHostObj] = useState("");
+    const [user, setUser] = useState("");
+    const [pass, setPass] = useState("");
+
+    const [phases, setPhases] = useState(props.phases) ;
+    let phasesClone = [...phases];
+
+    const [newPhaseType, setNewPhaseType] = useState(0);
+    const [newPhaseName, setNewPhaseName] = useState("");
+    const [newPhaseDescription, setNewPhasesDescription] = useState("");
+    const [newPhaseObject, setNewPhasesObject] = useState("");
+
+
     useEffect(() =>{
+        // websocket set up
+        // flow execution checking
         function setupWebsocket(){
             sendMessage("flowStarted", (flowId, flowInstances, ipTarget) => {
                 console.log(arguments)
@@ -48,11 +74,9 @@ export default function PhaseEditor(props){
             })
     }, [props.flowId]);
 
-    
-
-    const [hostList, setHostList] = useState([]);
 
     useEffect(() => {
+        // host list fill
         backend.get('/hosts',{headers:{"user-id": author}})
             .then(resp => {
                 setHostList(resp.data);
@@ -64,26 +88,7 @@ export default function PhaseEditor(props){
         
     }, [author]);
 
-    function setPhaseAsEnded(phaseIx){
-        if(MainPanel.runningMode()){
-            document
-                .querySelector(".phases-canvas")
-                    .getElementsByClassName("phase")[phaseIx-1]
-                        .classList.add("done");     
-        }
-    }
-
-    function resetPhasesStatus(){
-        const phases = document.querySelector(".phases-canvas").getElementsByClassName("phase");
-        for (let index = 0; index < phases.length; index++) {
-            phases[index].classList.remove("done");
-        } 
-    }
-
-    function setRunningIpLabel(ip){
-        document.querySelector("#flow-title .running-status .host").innerText = ip;
-    }
-
+    
     // START: TAGS
 
     const KeyCodes = {
@@ -133,13 +138,6 @@ export default function PhaseEditor(props){
 
     // END: TAGS
 
-    const [phases, setPhases] = useState(props.phases) ;
-    let phasesClone = [...phases];
-
-    const [newPhaseType, setNewPhaseType] = useState(0);
-    const [newPhaseName, setNewPhaseName] = useState("");
-    const [newPhaseDescription, setNewPhasesDescription] = useState("");
-    const [newPhaseObject, setNewPhasesObject] = useState("");
 
     function handleNewPhaseType(vle){
         setNewPhaseType(vle);
@@ -176,6 +174,7 @@ export default function PhaseEditor(props){
         phase.querySelector(".description").setAttribute("contentEditable", true);
         phase.querySelector(".object").disabled = false;
     }
+
     function stopEdition(phase){
         phase.classList.remove("alt");
         phase.querySelector(".title>div").setAttribute("contentEditable", false);
@@ -298,69 +297,10 @@ export default function PhaseEditor(props){
             </div>
         );
     }
-
-    function switchCredentialsForm(toOpen=true){
-        const disp = toOpen? "block" : "none";
-        document.getElementsByClassName("credentials")[0]
-            .style
-                .display = disp;
-    }
-
-    const [hostObj, setHostObj] = useState("");
-    const [user, setUser] = useState("");
-    const [pass, setPass] = useState("");
-
-    async function runFlow(e, flowId){
-        e.preventDefault();
-
-        const host = hostObj.split(":");
-        const credentials = {
-            host: host[0],
-            port: host[1],
-            user,
-            pass
-        }
-        switchCredentialsForm(false);
-        try {
-            const instanceData = await backend.post(
-                `/flows/${flowId}/start`,
-                credentials,
-                {
-                    headers:{
-                        "user-id":author
-                    }
-                }
-            );
-            console.log(instanceData);
-        } catch (error) {
-            console.log(error);
-            alert("Something went wrong while trying to run the Flow!");
-        }
-    }
-
-    async function stopFlow(flowId){
-        try {
-            const instanceData = await backend.delete(
-                `/flows/${flowId}/stop`,
-                null,
-                {
-                    headers:{
-                        "user-id":author
-                    }
-                }
-            );
-            console.log(instanceData);
-            alert("Command sent")
-        } catch (error) {
-            console.log(error);
-            alert("Something went wrong while trying to stop the Flow!");
-        }
-    }
-
     return(
         <div className="phase-editor">
             <div className="menu-action">
-                <div className="action stop" onClick={() => {stopFlow(props.flowId)}}>
+                <div className="action stop" onClick={() => {stopFlow(props.flowId, author)}}>
                     <span>Stop</span><FiStopCircle size="20" />
                 </div>
                 <div className="action start" onClick={() => switchCredentialsForm(true)}>
@@ -368,7 +308,7 @@ export default function PhaseEditor(props){
                 </div>
                 <form 
                     className="balloon credentials" 
-                    onSubmit={e => {runFlow(e, props.flowId)}}
+                    onSubmit={e => {runFlow(e, props.flowId, hostObj, user, pass, author)}}
                 >
                     <div className="close-btn" onClick={() => switchCredentialsForm(false)}>
                         <FiX />
