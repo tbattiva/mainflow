@@ -15,6 +15,6 @@ Mainframe Batch Flows Manager (Zowe + JS)
 
 ## If you are cloning this project to try it out
 
- * do not forget to build your MongoDB; and
+ * do not forget to build your MongoDB;
  * change the .env file to reach the right DB;
  * clone the Node.js backend
