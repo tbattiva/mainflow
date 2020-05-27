@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {sendMessage} from '../../../services/websocket';
-import {FiLayers, FiHexagon} from 'react-icons/fi';
+import {FiLayers, FiHexagon, FiArrowRight} from 'react-icons/fi';
+
+import { setContent } from '../../Mainflow/content';
+import {turnNotificationOn} from '../LeftMenu';
+import { handleInstanceOpening } from '../../utils/instanceUtils';
 
 import backend from '../../../services/backend';
 
@@ -9,8 +13,6 @@ import NewHost from '../NewHost';
 
 import './style.css';
 
-import { setContent } from '../../Mainflow/content';
-import {turnNotificationOn} from '../LeftMenu';
 
 export default function Welcome(props) {
     
@@ -113,6 +115,9 @@ export default function Welcome(props) {
                             <div className={`flow-instance ${instance.status}`} key={instance._id}>
                                 <div className="title">{instance.flowId.name} (Phase {instance.phase-1}/{instance.size})</div>
                                 <div className={`status ${instance.status}`}>{time} - {instance.status}</div>
+                                <div className="open-btn" onClick={e => handleInstanceOpening(instance._id)}>
+                                    <FiArrowRight />
+                                </div>
                             </div>
                         );
                     })

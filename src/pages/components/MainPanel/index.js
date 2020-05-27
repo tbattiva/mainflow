@@ -10,6 +10,20 @@ export default class MainPanel extends Component{
         subtitle: document.getElementsByClassName("subtitle"),
     }
 
+    static scrollTop = () =>{
+        document.getElementById("main-panel").scrollTop = 0;
+    }
+
+    static setOutputModeOn = () => {
+        document.getElementById("main-panel").classList.add("output");
+        return;
+    }
+
+    static setOutputModeOff = () => {
+        document.getElementById("main-panel").classList.remove("output");
+        return;
+    }
+
     static setRunningModeOn = () =>{
         document.getElementById("main-panel").classList.add("running");
         return;

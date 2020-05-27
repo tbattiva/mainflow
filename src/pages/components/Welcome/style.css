@@ -126,3 +126,22 @@
 .welcome [class*='flows-list'] .flow-instance .status.stoped{
     color: goldenrod;
 }
+
+.welcome [class*='flows-list'] .flow-instance .open-btn{
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    
+    right: 0;
+    top: 50%;
+    
+    border-radius:50%;
+    background-color: transparent;
+    transform:translate(0, -50%) ;
+    cursor: pointer;
+}
+
+.welcome [class*='flows-list'] .flow-instance .open-btn:hover svg{
+    stroke: #016ed0;
+}

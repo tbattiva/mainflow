@@ -1,6 +1,6 @@
 import React from 'react';
 import {setBeforeRunningFlowStarted, setBeforeRunningFlowFinished} from '../../../services/websocket';
-import { FiHome, FiList, FiBarChart2, FiTriangle } from 'react-icons/fi';
+import { FiHome, FiList, FiBarChart2, FiTriangle, FiHelpCircle } from 'react-icons/fi';
 
 import Welcome from '../Welcome';
 
@@ -49,11 +49,14 @@ export default function LeftMenu() {
                         <FiTriangle />
                     </div>
                 </div>
-                <div className='menu-item'>
+                <div className='menu-item' style={{display:"none"}}>
                     <FiList size="22"/>
                 </div>
-                <div className='menu-item'>
+                <div className='menu-item' style={{display:"none"}}>
                     <FiBarChart2 size="22"/>
+                </div>
+                <div className='menu-item'>
+                    <FiHelpCircle size="22"/>
                 </div>
             </div>
         </div>

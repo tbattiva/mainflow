@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { sendMessage } from '../../../services/websocket';
+import strings, {phaseTypes} from '../../utils/strings';
 
 import {
     setRunningIpLabel, 
@@ -10,7 +11,7 @@ import {
     runFlow, 
     stopFlow} from './execution';
 
-import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle, FiX} from 'react-icons/fi';
+import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle, FiX, FiBookOpen} from 'react-icons/fi';
 
 import './style.css';
 import './tag.css';
@@ -87,6 +88,12 @@ export default function PhaseEditor(props){
             });
         
     }, [author]);
+
+
+    useEffect(() =>{
+        // output checking
+        if (props.phaseOutput) MainPanel.setOutputModeOn();
+    });
 
     
     // START: TAGS
@@ -276,7 +283,9 @@ export default function PhaseEditor(props){
                     onKeyPress={e => handlePhaseTextChange(e, 30)}
                 >
                     <div>{phase.name}</div>
-                    <span style={{"fontSize":"12px","color":"#c1c1c1"}}>({phase.type<=2?"JOB":"Command"})</span>
+                    <span style={{"fontSize":"12px","color":"#c1c1c1"}}>
+                        ({phase.type<= phaseTypes.JOB_TYPE?"JOB":"Command"})
+                    </span>
                 </div>
                 <div  
                     className="description" 
@@ -291,12 +300,47 @@ export default function PhaseEditor(props){
                     handleAddition={(tag) => {handlePhaseTagAddition(tag,ix)}}
                     allowDragDrop={false} 
                     delimiters={delimiters} />
-                <textarea className="object" rows="3" value={phase.object} onChange={e => handlePhaseObjectChange(e.target.value, ix)}> </textarea>
+                <textarea 
+                    className="object" 
+                    rows="3" 
+                    value={phase.object} 
+                    onChange={e => handlePhaseObjectChange(e.target.value, ix)}
+                    disabled> </textarea>
+                
+                <div className="phase-output">
+                    {drawOutput(phase.type, ix)}
+                </div>
                 
                 <span className="modified">modified: {phase.modified.replace('T', ' ').substring(0, 16)}</span>
             </div>
         );
     }
+
+    function drawOutput(type, ix){
+        if (props.phaseOutput && props.phaseOutput[ix]){
+            switch (type) {
+                case phaseTypes.JOB_TYPE:
+                    return (<div className="job-output">
+                        <div className="return-code"><span>{props.phaseOutput[ix].retcode}</span></div>
+                        <div className="open-sysout-btn" onClick={e => {alert("Method wasn't built!")}}>
+                            <span>{strings.TO_OPEN_SYSOUT}</span>
+                            <FiBookOpen />
+                        </div>
+                    </div>);
+                case phaseTypes.COMMAND_TYPE:
+                    return (<div className="command-output">
+                            Command Output:
+                            <span>{props.phaseOutput[ix].commandResponse}</span>
+                        </div>)
+                default:
+                    return (<div></div>);
+            }
+        }
+        
+        return (<div></div>);
+        
+    }
+
     return(
         <div className="phase-editor">
             <div className="menu-action">

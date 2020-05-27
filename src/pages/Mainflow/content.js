@@ -4,6 +4,8 @@ import strings from '../utils/strings';
 function setContent (component, 
     title = strings.WELCOME_TITLE, 
     subtitle = strings.WELCOME_SUBTITLE) {
+        MainPanel.scrollTop();
+        MainPanel.setOutputModeOff();
         MainPanel.setRunningModeOff();
         MainPanel.setMainContent(component)
         MainPanel.setTitle(title);   
