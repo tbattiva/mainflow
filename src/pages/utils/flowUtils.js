@@ -55,6 +55,7 @@ async function handleFlowOpening(flowId){
     try {
         const openedFlow = await backend.get(`/flows/${flowId}`);
 
+        setContent("","","");
         setContent(
             (<PhaseEditor 
                 phases={openedFlow.data.phases} 
