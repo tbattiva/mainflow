@@ -321,6 +321,18 @@ export default function PhaseEditor(props){
         );
     }
    
+    function printSysoutMembers(sysout){
+        if (sysout && sysout.length > 0) {
+            const sysoutMembers = sysout.map( (sysoutMember, i) => 
+                (<li key={i} onClick={e => {openSysout(sysoutMember.ddName, sysoutMember.data, e)}}>
+                    {sysoutMember.ddName}
+                </li>)
+            );
+            return sysoutMembers;
+        }
+        return (<li>no data</li>);
+    }
+
     function drawOutput(type, ix){
         if (props.phaseOutput && props.phaseOutput[ix] && props.phaseSysout){
             switch (type) {
@@ -336,18 +348,14 @@ export default function PhaseEditor(props){
                                         <FiX />
                                     </div>
                                     { 
-                                        props.phaseSysout[ix].map( (sysoutMember, i) => 
-                                            (<li key={i} onClick={e => {openSysout(sysoutMember.ddName, sysoutMember.data, e)}}>
-                                                {sysoutMember.ddName}
-                                            </li>)
-                                        
-                                    )}
+                                        printSysoutMembers(props.phaseSysout[ix])
+                                    }
                                 </ul>
                             </div>
                         </div>
                         <div className="sysout-member">
                             <span className="ddname">name</span>
-                            <span className="dddata">daat</span>
+                            <span className="dddata">data</span>
                         </div>
 
                     </div>);
