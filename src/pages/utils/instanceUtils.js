@@ -16,7 +16,8 @@ async function handleInstanceOpening(instanceId){
             (<PhaseEditor 
                 phases={flow.phases} 
                 flowId={flow._id}
-                phaseOutput={instanceData.phaseOutput} />),
+                phaseOutput={instanceData.phaseOutput} 
+                phaseSysout={instanceData.phaseSysout} />),
             (<FlowTitle title={flow.name}></FlowTitle>),
             flow.description
         );

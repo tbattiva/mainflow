@@ -331,15 +331,20 @@
 }
 .phases-canvas .phase .phase-output .job-output{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
+    width: inherit;
     
     margin-top: 20px;
     margin-left: 15px;
     
     color: #626262;
 }
+
+.phases-canvas .phase .phase-output .job-output .max-output{
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .phases-canvas .phase .phase-output .job-output .return-code{
     font-size: 20px;
@@ -349,6 +354,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
 }
 
 .phases-canvas .phase .phase-output .job-output .open-sysout-btn *{
@@ -356,10 +362,97 @@
     
     cursor: pointer;
 }
-.phases-canvas .phase .phase-output .job-output .open-sysout-btn:hover *{
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn:hover {
     stroke: #016ed0;
     color: #016ed0;
 }
+
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn .balloon{
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    transform: translate(0, calc(100% + 15px));
+    z-index: 1;
+
+    max-width: 30em;
+    width: 150px;
+    
+    background-color: #eeefff;
+    padding: 1.125em 1.5em;
+    font-size: 1.25em;
+    border-radius: 1rem;
+    box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);    
+    
+}
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn.opened .balloon{
+    display: block;
+}
+
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn .balloon::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 100%;
+    right: 1.5em; 
+    border: .75rem solid transparent;
+    border-top: none;
+
+    border-bottom-color: #eeefff;;
+    filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}
+
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn .balloon li{
+    text-decoration: none;
+    list-style: none;
+    margin: 5px 0;
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn .balloon li:hover{
+    transform: translate(5px, 0);
+}
+
+.phases-canvas .phase .phase-output .job-output .open-sysout-btn .balloon .close-btn{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+
+    top:-8px;
+    left:-8px;
+
+    font-size: 12px;
+    background-color: #fff;
+    color: #016ed0;
+    border: solid 1.5px #016ed0;
+    border-radius: 50%;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.phases-canvas .phase .phase-output .job-output .sysout-member{
+    display: none;
+    flex-direction: column;
+
+    margin-top: 25px;
+}
+
+.phases-canvas .phase .phase-output .job-output .sysout-member .ddname{
+    font-size: 16px;
+}
+
+.phases-canvas .phase .phase-output .job-output .sysout-member .dddata{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+
+    margin-top: 12px;
+}
+
 
 
 .phases-canvas .phase .phase-output .command-output{

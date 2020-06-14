@@ -11,6 +11,10 @@ import {
     runFlow, 
     stopFlow} from './execution';
 
+import {
+    switchSysoutList,
+    openSysout} from './output';
+
 import {FiPlayCircle, FiEdit, FiTrash2, FiXCircle, FiSave, FiStopCircle, FiX, FiBookOpen} from 'react-icons/fi';
 
 import './style.css';
@@ -316,22 +320,45 @@ export default function PhaseEditor(props){
             </div>
         );
     }
-
+   
     function drawOutput(type, ix){
-        if (props.phaseOutput && props.phaseOutput[ix]){
+        if (props.phaseOutput && props.phaseOutput[ix] && props.phaseSysout){
             switch (type) {
                 case phaseTypes.JOB_TYPE:
                     return (<div className="job-output">
-                        <div className="return-code"><span>{props.phaseOutput[ix].retcode}</span></div>
-                        <div className="open-sysout-btn" onClick={e => {alert("Method wasn't built!")}}>
-                            <span>{strings.TO_OPEN_SYSOUT}</span>
-                            <FiBookOpen />
+                        <div className="max-output">
+                            <div className="return-code"><span>{props.phaseOutput[ix].retcode}</span></div>
+                            <div className="open-sysout-btn" onClick={e => {switchSysoutList(e)}}>
+                                <span>{strings.TO_OPEN_SYSOUT}</span>
+                                <FiBookOpen />
+                                <ul className="balloon">
+                                    <div className="close-btn" onClick={(e) => switchSysoutList(e, false)}>
+                                        <FiX />
+                                    </div>
+                                    { 
+                                        props.phaseSysout[ix].map( (sysoutMember, i) => 
+                                            (<li key={i} onClick={e => {openSysout(sysoutMember.ddName, sysoutMember.data, e)}}>
+                                                {sysoutMember.ddName}
+                                            </li>)
+                                        
+                                    )}
+                                </ul>
+                            </div>
                         </div>
+                        <div className="sysout-member">
+                            <span className="ddname">name</span>
+                            <span className="dddata">daat</span>
+                        </div>
+
                     </div>);
                 case phaseTypes.COMMAND_TYPE:
                     return (<div className="command-output">
                             Command Output:
-                            <span>{props.phaseOutput[ix].commandResponse}</span>
+                            <span 
+                                dangerouslySetInnerHTML={
+                                    {__html:props.phaseOutput[ix].commandResponse.replace(/(\n)/g, "<br>")}
+                                }>
+                            </span>
                         </div>)
                 default:
                     return (<div></div>);
